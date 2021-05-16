@@ -11,9 +11,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.client.api.AssetsApi;
 import io.swagger.client.api.LocationApi;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ReactiveAdapterRegistry;
 import org.springframework.stereotype.Service;
 import se.curvysoft.eve.tools.model.ApiClient;
+import se.curvysoft.eve.tools.model.esi.CharacterData;
 import se.curvysoft.eve.tools.model.esi.*;
 
 import javax.annotation.PostConstruct;
@@ -63,19 +63,9 @@ public class EsiService {
         } catch (Exception ignore) {}
     }
 
-    private List<String> scopes = Arrays.asList("esi-location.read_location.v1",
-            "esi-location.read_ship_type.v1",
-            "esi-skills.read_skills.v1",
-            "esi-universe.read_structures.v1",
-            "esi-assets.read_assets.v1",
-            "esi-fittings.read_fittings.v1",
-            "esi-fittings.write_fittings.v1",
-            "esi-markets.structure_markets.v1",
-            "esi-characters.read_blueprints.v1",
-            "esi-clones.read_implants.v1",
-            "esi-corporations.read_blueprints.v1",
-            "esi-industry.read_character_mining.v1",
-            "esi-characterstats.read.v1");
+    private List<String> scopes = Arrays.asList(
+            "esi-characters.read_blueprints.v1"
+    );
 
     public EsiService(SessionData sessionData) {
         this.sessionData = sessionData;
@@ -161,7 +151,8 @@ public class EsiService {
             conn.setRequestProperty("Authorization", "Basic " + auth);
             OutputStream os = conn.getOutputStream();
             os.write(json.getBytes());
-        } catch (Exception ignore) {}
+        } catch (Exception ignore) {
+        }
     }
 
     public boolean isLoggedIn() {
