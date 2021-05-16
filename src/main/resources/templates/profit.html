@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/layout :: head('Instant profit')"/>
+    <script>
+        function copyToClipboard() {
+            var tempInput = document.createElement("textarea");
+            tempInput.style = "position: absolute; left: -1000px; top: -1000px";
+            tempInput.value = document.getElementById("clipboardData").value;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+        }
+    </script>
+</head>
+<body>
+<div th:replace="fragments/layout :: header ('profit')"></div>
+<div class="container">
+    <div class="my-3 p-3 bg-light rounded shadow-sm">
+        <form method="post" action="/profit">
+            <div th:replace="fragments/market-selector.html :: market-selector"></div>
+            <label for="items">Paste items (ctrl c in game client)</label>
+            <div>
+                <textarea id="items" name="items" rows="10" cols="60" th:text="${items}"></textarea>
+            </div>
+            <div>
+                <input type="submit" name="Submit">
+            </div>
+            <textarea style="display: none" id="clipboardData" th:text="${data}"></textarea>
+        </form>
+        <p th:if="${results != null}">Result</p>
+        <table th:if="${results != null}">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Item</th>
+                <th class="center">Count</th>
+                <th>Per item</th>
+                <th>Sum</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${results.isEmpty()}">
+                <td colspan="2">No valid items found</td>
+            </tr>
+            <tr th:each="result : ${results}">
+                <td><img th:src="${result.getItemIconUrl()}"></td>
+                <td th:text="${result.getItemName()}">Name</td>
+                <td class="right" th:text="${result.getItemCount()}"></td>
+                <td class="right" th:text="${result.getItemPrice()}"></td>
+                <td class="right" th:text="${result.getItemTotal()}"></td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="3"><a th:if="${results != null}" href="#" onclick="copyToClipboard(); return false;">Copy
+                    price
+                    data</a></td>
+                <td>Total:</td>
+                <td th:text="${totals}"></td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

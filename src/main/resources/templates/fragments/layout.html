@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title)">
+    <meta charset="UTF-8">
+    <title th:text="${title}"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <script src="https://kit.fontawesome.com/550cfa4b80.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <link href="main.css" rel="stylesheet">
+    <script async th:if="${@environment.getActiveProfiles()[0] == 'prod'}" th:src="${'https://www.googletagmanager.com/gtag/js?id=' + @environment.getProperty('curvysoft.google.tag-id')}"></script>
+    <script th:if="${@environment.getActiveProfiles()[0] == 'prod'}" th:inline="javascript">
+        /*<![CDATA[*/
+        var tag = /*[[${@environment.getProperty('curvysoft.google.tag-id')}]]*/ 'empty';
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', tag);
+        /*]]>*/
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-expand-md" th:fragment="header (active)">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="https://images.evetech.net/types/1230/icon?size=32"> Ayelena's Industrial Bits and Bobs
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav nav-pills me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == '/'} ? 'active' : ''" data-th-attr="aria-current=${active == '/'} ? 'page' : 'false'" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'bpprofit'} ? 'active' : ''" href="/bpprofit" data-th-attr="aria-current=${active == 'bpprofit'} ? 'page': 'false'">Blueprint profit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'scr'} ? 'active' : ''" href="/sell" data-th-attr="aria-current=${active == 'scr'} ? 'page': 'false'">Sell/Compress/Reprocess</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${active == 'profit'} ? 'active' : ''" href="/profit" data-th-attr="aria-current=${active == 'profit'} ? 'page': 'false'">Direct sell profit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" target="_blank" href="https://docs.google.com/spreadsheets/d/1PwghcmvGyoZqkxW1MiUC4Z5W45k3iCEYHlXDEW-nL6Q/edit?usp=sharing">Mining Spreadsheet <i class="fas fa-external-link-alt" style="color: green;"></i></a>
+                </li>
+            </ul>
+            <div class="d-flex">
+                <a href="https://github.com/d-lindahl/evetools" target="_blank"><img id="github-logo" title="On GitHub" alt="GitHub repository" src="GitHub-Mark-Light-32px.png"></a>
+                <div th:if="${@esiService.isLoggedIn()}" class="esi-login">
+                    <a class="btn btn-secondary btn-sm" th:href="@{/esi-signout(from=${@sharedData.getCurrentPath()})}">Sign Out</a> <img class="border border-success border-1 rounded" th:title="${@esiService.getCharacterName()}" th:alt="${@esiService.getCharacterName()}" th:src="${@esiService.getCharacterPortraitUri()}">
+                </div>
+                <a th:unless="${@esiService.isLoggedIn()}" th:href="@{/esi-auth(from=${@sharedData.getCurrentPath()})}"><img class="esi-login" src="https://web.ccpgamescdn.com/eveonlineassets/developers/eve-sso-login-white-small.png" alt="Eve ESI SSO"></a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<footer class="fixed-bottom bg-dark text-center text-light" th:fragment="footer">
+    <div>If you like the tools, donate an ISK or 2 to  "Ayelena"!</div>
+    <div>All Eve-related materials are property of <a class="link-info" href="https://www.eveonline.com/">CCP Games</a>. Prices from <a class="link-info" href="https://evepraisal.com/">https://evepraisal.com/</a></div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-p34f1UUtsS3wqzfto5wAAmdvj+osOnFyQFpp4Ua3gs/ZVWx6oOypYoCJhGGScy+8" crossorigin="anonymous"></script>
+</footer>
+</body>
+</html>

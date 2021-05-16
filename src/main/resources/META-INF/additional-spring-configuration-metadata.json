@@ -1,0 +1,34 @@
+{
+  "properties": [
+    {
+      "name": "curvysoft.google.tag-id",
+      "type": "java.lang.String",
+      "description": "Google tag id for Analytics"
+    },
+    {
+      "name": "curvysoft.esi.base",
+      "type": "java.lang.String",
+      "description": "ESI oauth config"
+    },
+    {
+      "name": "curvysoft.esi.callback",
+      "type": "java.lang.String",
+      "description": "ESI oauth callback url"
+    },
+    {
+      "name": "curvysoft.esi.client",
+      "type": "java.lang.String",
+      "description": "ESI oauth client id"
+    },
+    {
+      "name": "curvysoft.esi.secret",
+      "type": "java.lang.String",
+      "description": "ESI oauth client secret"
+    },
+    {
+      "name": "curvysoft.esi.user-agent",
+      "type": "java.lang.String",
+      "description": "Value for user-agent header when calling ESI"
+    }
+  ]
+}

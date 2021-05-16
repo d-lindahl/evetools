@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/layout :: head ('Blueprint profitability')"></div>
+    <script>
+        function load() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+
+
+            var table = document.getElementsByTagName("tbody");
+            if (table.length > 0) {
+                $('#dataTable').DataTable({
+                    columnDefs: [
+                        { orderable: false, targets: 0 },
+                        { "orderSequence": ["desc", "asc"], "targets": [1, 4, 5, 6, 7, 8, 9]}
+                    ],
+                    "order": [7, 'desc'],
+                    orderMulti: true,
+                    scrollY: '72vh',
+                    paging: false
+                });
+            }
+        }
+    </script>
+    <style>
+
+    </style>
+</head>
+<body onload="load()">
+<div th:replace="fragments/layout :: header('bpprofit')"></div>
+<div class="container-wrapper">
+    <div class="container">
+        <div class="my-3 p-3 bg-light rounded shadow-sm">
+            <form method="post" action="/bpprofit">
+                <div th:replace="fragments/market-selector.html :: market-selector"></div>
+                <input type="submit" name="submit" value="Fetch blueprints">
+            </form>
+            <table id="dataTable" th:if="${results != null}" class="table table-sm table-striped table-hover">
+                <thead class="table-dark">
+                <tr>
+                    <th></th>
+                    <th>ME</th>
+                    <th>Runs</th>
+                    <th data-bs-toggle="tooltip" data-bs-placement="top" title="Material value when sold to highest buy orders">Mat value*</th>
+                    <th>Product</th>
+                    <th>Highest buy order</th>
+                    <th>Profit</th>
+                    <th>%</th>
+                    <th>Lowest sell order</th>
+                    <th>Profit</th>
+                    <th>%</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${results.isEmpty()}">
+                    <td colspan="12">No valid blueprints found</td>
+                </tr>
+                <tr class="bp-row" th:id="${'bp' + result.getBlueprintId()}" th:each="result : ${results}">
+                    <td><img th:src="${result.getBlueprintIconUrl()}" th:title="${result.getBlueprintName() + (result.getCopy() ? ' (COPY)' : '') + ' (TE: ' + result.getTe() + ')'}"></td>
+                    <td class="right" th:text="${result.getMe()}"></td>
+                    <td class="right" th:text="${result.getRuns()}"></td>
+                    <td class="right" th:text="${result.getMaterialsSellPrice()}"></td>
+                    <td th:text="${result.getProductName()}"> Product</td>
+                    <td class="right" th:classappend="${result.getPositiveDirectSellProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductDirectSellPrice()}"> Highest sell order</td>
+                    <td class="right" th:classappend="${result.getPositiveDirectSellProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductDirectSellDiff()}"></td>
+                    <td class="right" th:classappend="${result.getPositiveDirectSellProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductDirectSellDiffPercentage()}"></td>
+                    <td class="right" th:classappend="${result.getPositiveSellOrderProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductSellOrderPrice()}">Lowest buy order</td>
+                    <td class="right" th:classappend="${result.getPositiveSellOrderProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductSellOrderDiff()}"></td>
+                    <td class="right" th:classappend="${result.getPositiveSellOrderProfit() ? 'table-success' : 'table-danger'}" th:text="${result.getProductSellOrderDiffPercentage()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/layout :: head ('Sell, compress or reprocess?')"></div>
+    <script>
+        function load() {
+            var efficiency = localStorage.getItem("efficiency");
+            if (!efficiency) {
+                efficiency = 50;
+            }
+            document.getElementById("efficiency").value = efficiency
+        }
+
+        function saveEfficiency(input) {
+            localStorage.setItem("efficiency", input.value);
+        }
+    </script>
+</head>
+<body onload="load()">
+<div th:replace="fragments/layout :: header ('scr')"></div>
+<div class="container">
+    <div class="my-3 p-3 bg-light rounded shadow-sm">
+        <form method="post" action="/sell">
+            <div th:replace="fragments/market-selector.html :: market-selector"></div>
+            <label for="rawMaterials">Paste raw material list (ctrl c in game client)</label>
+            <br>
+            <textarea id="rawMaterials" name="rawMaterials" rows="10" cols="60" th:text="${rawMaterials}"></textarea>
+            <br>
+            <label for="efficiency">Reprocessing efficiency</label>
+            <input id="efficiency" type="number" name="efficiency" onchange="saveEfficiency(this)"/>
+            <br>
+            <!--<div>
+                <div style="float:left" th:each="skill : ${skills}">
+                    <label th:for="${skill}" th:text="${skill}"></label>
+                    <input th:id="${skill}" type="number" th:name="${skill}" min="0" max="5"/>
+                </div>
+            </div>-->
+            <input type="submit" name="Submit">
+        </form>
+        <table th:if="${results != null}">
+            <thead>
+            <tr>
+                <th></th>
+                <th class="center">Action</th>
+                <th>Count</th>
+                <th>Item</th>
+                <th>Volume</th>
+                <th>Sell raw</th>
+                <th>Sell compressed</th>
+                <th>Sell refined</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${results.isEmpty()}">
+                <td colspan="2">No valid raw materials found</td>
+            </tr>
+            <tr th:each="result : ${results}">
+                <td><img th:src="${result.getIcon()}"/></td>
+                <td class="badge" th:text="${result.getAction().toUpperCase()}"></td>
+                <td class="right" th:text="${result.getCount()}"></td>
+                <td th:text="${result.getName()}">Name</td>
+                <td class="right" th:text="${result.getVolume()}"></td>
+                <td th:class="${result.getAction() == 'sell' ? 'selected right' : 'right'}"
+                    th:text="${result.getSellRaw()}"></td>
+                <td th:class="${result.getAction() == 'compress' ? 'selected right' : 'right'}"
+                    th:text="${result.getSellCompressed()}"></td>
+                <td th:class="${result.getAction() == 'refine' ? 'selected right' : 'right'}"
+                    th:text="${result.getSellRefined()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>

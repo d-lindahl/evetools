@@ -1,0 +1,60 @@
+@font-face {
+    font-family:shentox-5;
+    src:url("ShentoxLight.ttf") format("woff"),
+        url("ShentoxLight.ttf") format("opentype"),
+        url("ShentoxLight.ttf") format("truetype")
+}
+
+html, body {
+    height: 100%;
+    overflow: hidden;
+
+}
+
+body {
+    font-family: 'shentox-5', sans-serif;
+}
+
+.navbar {
+    height: 60px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background-color: #6c757d;
+}
+
+.container-wrapper {
+    height: calc(100% - 48px - 60px);
+    width: 100%;
+    overflow-y: auto;
+}
+
+/* Works on Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: gray lightgray;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+*::-webkit-scrollbar-track {
+    background: lightgray;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 20px;
+    border: 3px solid gray;
+}
+
+.right {
+    text-align: right;
+}
+
+#github-logo {
+    padding-right: 20px;
+}

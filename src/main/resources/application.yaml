@@ -1,0 +1,33 @@
+spring:
+  profiles:
+    active: @spring.profiles.active@
+  session:
+    store-type: jdbc
+    timeout: 365d
+    jdbc:
+      initialize-schema: never
+  datasource:
+    url: jdbc:mysql://dummy/db?autoReconnect=true&useSSL=false&serverTimezone=UTC
+    username: dummy
+    password: dummy
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: validate
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+  thymeleaf:
+    cache: false
+curvysoft:
+  google:
+    tag-id: dummy
+  esi:
+    base: https://login.eveonline.com/.well-known/oauth-authorization-server
+    callback: http://dummy.com/callback
+    client: dummy
+    secret: dummy
+    user-agent: Ayelena's Industrial Bits and Bobs - https://eve.curvysoft.se

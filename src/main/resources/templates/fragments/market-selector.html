@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Market selector fragment</title></head>
+<body>
+<div th:fragment="market-selector">
+    <label for="market">Using current buy prices from</label>
+    <select id="market" name="market" onchange="saveMarket(this)">
+        <option value="jita" selected="">Jita</option>
+        <option value="perimeter">Perimeter</option>
+        <option value="universe">Universe</option>
+        <option value="amarr">Amarr</option>
+        <option value="dodixie">Dodixie</option>
+        <option value="hek">Hek</option>
+        <option value="rens">Rens</option>
+    </select>
+    <script src="market-selector.js"></script>
+</div>
+</body>

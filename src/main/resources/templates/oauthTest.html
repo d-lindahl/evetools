@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/layout :: head('OAUTH Test')"/>
+</head>
+<body>
+<div th:replace="fragments/layout :: header ('fa-arrow-left')"></div>
+<div class="content">
+    <p th:text="${accessToken?.getAccessToken()}"></p>
+    <p th:text="${accessToken?.getTokenType()}"></p>
+    <p th:text="${accessToken?.getExpiresIn()}"></p>
+    <p th:text="${accessToken?.getRefreshToken()}"></p>
+</div>
+<div th:replace="fragments/layout :: footer"></div>
+</body>
+</html>
